@@ -11,22 +11,6 @@ module Addressable
       host = self.host
       (host && PublicSuffix.valid?(host, default_rule: nil)) ? PublicSuffix.parse(host).domain : nil
     end
-
-    def normalized_query
-      @normalized_query ||= (begin
-        if self.query && self.query.strip != ''
-          (self.query.strip.split("&", -1).map do |pair|
-            Addressable::URI.normalize_component(
-              pair,
-              Addressable::URI::CharacterClasses::QUERY.sub("\\&", "")
-            )
-          end).join("&")
-        else
-          nil
-        end
-      end)
-    end
-
   end
 end
 
